@@ -1,0 +1,47 @@
+#define trig 3
+#define echo 2
+#define relay 8
+
+int terminal1=A5; 
+int terminal2_value; 
+
+void setup() {
+  pinMode(terminal1, INPUT); 
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+  pinMode(relay, OUTPUT);
+}
+
+void loop() {
+  long duration, distance;
+  terminal2_value=analogRead(terminal1);
+  
+  if (terminal2_value>512) 
+  {
+   digitalWrite(relay, LOW); 
+  }
+  if(terminal2_value<512)
+  {
+   	digitalWrite(relay, HIGH); 
+  }
+  
+  digitalWrite(trig, LOW);
+  delay(20);
+  digitalWrite(trig, HIGH);
+  delay(20);
+  digitalWrite(trig, LOW);
+  
+  duration = pulseIn(echo, HIGH);
+  distance = duration*0.0343/2;
+  
+  if (distance <= 150) 
+  {
+    digitalWrite(relay, HIGH);
+    delay(2000);
+  }
+  if (distance >= 151) 
+  {
+    digitalWrite(relay, LOW);
+    delay(2000);
+  }
+}
